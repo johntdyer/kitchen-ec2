@@ -97,7 +97,6 @@ module Kitchen
           :provider               => :aws,
           :region                 => config[:region]
         }
-
         if config[:use_iam_profile]
           fog_config.merge!({:use_iam_profile => true})
         else
