@@ -53,8 +53,8 @@ module Kitchen
         driver.default_username
       end
 
-      required_config :aws_access_key_id
-      required_config :aws_secret_access_key
+      required_config :aws_access_key_id unless config[:use_iam_role]
+      required_config :aws_secret_access_key unless config[:use_iam_role]
       required_config :aws_ssh_key_id
       required_config :image_id
 
@@ -126,7 +126,8 @@ module Kitchen
         debug("ec2:region '#{config[:region]}'")
         debug("ec2:availability_zone '#{config[:availability_zone]}'")
         debug("ec2:flavor_id '#{config[:flavor_id]}'")
-        debug("ec2:image_id '#{config[:image_id]}'")
+        debug("ec2:flavor_id '#{config[:flavor_id]}'")
+        debug("ec2:use_iam_profile '#{config[:use_iam_profile]}'") if config[:use_iam_profile]
         debug("ec2:groups '#{config[:groups]}'")
         debug("ec2:tags '#{config[:tags]}'")
         debug("ec2:key_name '#{config[:aws_ssh_key_id]}'")
