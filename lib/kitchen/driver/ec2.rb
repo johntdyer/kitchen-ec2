@@ -65,7 +65,7 @@ module Kitchen
         info("EC2 instance <#{state[:server_id]}> created.")
         server.wait_for { print "."; ready? } ; print "(server ready)"
         state[:hostname] = server.public_ip_address || server.private_ip_address
-        wait_for_sshd(state[:hostname], config[:username]);print "(ssh ready)\n"
+        wait_for_sshd(state[:hostname], config[:username]) ; print "(ssh ready)\n"
         debug("ec2:create '#{state[:hostname]}'")
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
@@ -127,7 +127,11 @@ module Kitchen
         debug("ec2:availability_zone '#{config[:availability_zone]}'")
         debug("ec2:flavor_id '#{config[:flavor_id]}'")
         debug("ec2:flavor_id '#{config[:flavor_id]}'")
-        debug("ec2:use_iam_profile '#{config[:use_iam_profile]}'") if config[:use_iam_profile]
+
+        if config[:use_iam_profile]
+          debug("ec2:use_iam_profile '#{config[:use_iam_profile]}'")
+        end
+
         debug("ec2:groups '#{config[:groups]}'")
         debug("ec2:tags '#{config[:tags]}'")
         debug("ec2:key_name '#{config[:aws_ssh_key_id]}'")
