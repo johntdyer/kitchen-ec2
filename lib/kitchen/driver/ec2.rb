@@ -65,7 +65,10 @@ module Kitchen
         info("EC2 instance <#{state[:server_id]}> created.")
         server.wait_for { print "."; ready? } ; print "(server ready)"
         state[:hostname] = server.public_ip_address || server.private_ip_address
-        wait_for_sshd(state[:hostname], config[:username]) ; print "(ssh ready)\n"
+
+        wait_for_sshd(state[:hostname], config[:username])
+        print "(ssh ready)\n"
+
         debug("ec2:create '#{state[:hostname]}'")
       rescue Fog::Errors::Error, Excon::Errors::Error => ex
         raise ActionFailed, ex.message
@@ -98,11 +101,11 @@ module Kitchen
           :region                 => config[:region]
         }
         if config[:use_iam_profile]
-          fog_config.merge!({:use_iam_profile => true})
+          fog_config.merge!({ :use_iam_profile => true })
         else
           fog_config.merge!({
-          :aws_access_key_id      => config[:aws_access_key_id],
-          :aws_secret_access_key  => config[:aws_secret_access_key],
+            :aws_access_key_id      => config[:aws_access_key_id],
+            :aws_secret_access_key  => config[:aws_secret_access_key],
           })
         end
         Fog::Compute.new(fog_config)
