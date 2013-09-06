@@ -34,6 +34,7 @@ module Kitchen
       default_config :region,             'us-east-1'
       default_config :availability_zone,  'us-east-1b'
       default_config :flavor_id,          'm1.small'
+      default_config :use_iam_role,       false
       default_config :groups,             ['default']
       default_config :tags,               { 'created-by' => 'test-kitchen' }
       default_config :aws_access_key_id do |driver|
@@ -92,12 +93,20 @@ module Kitchen
       private
 
       def connection
-        Fog::Compute.new(
+        fog_config = {
           :provider               => :aws,
+          :region                 => config[:region]
+        }
+
+        if config[:use_iam_profile]
+          fog_config.merge!({:use_iam_profile => true})
+        else
+          fog_config.merge!({
           :aws_access_key_id      => config[:aws_access_key_id],
           :aws_secret_access_key  => config[:aws_secret_access_key],
-          :region                 => config[:region],
-        )
+          })
+        end
+        Fog::Compute.new(fog_config)
       end
 
       def create_server
