@@ -169,6 +169,12 @@ The default will be determined by the Platform name, if a default exists (see
 [amis.json][amis_json]). If a default cannot be computed, then the default is
 `"root"`.
 
+### <a name="use_iam_role"></a> use_iam_role
+
+When set to True Fog will use [AWS IAM roles][iam_docs] for authentication duing instance provisioning. Please note that this flag will make the aws\_access\_key\_id and aws\_secret\_access\_key config flags optional.
+
+The default is `false`.
+
 ## <a name="example"></a> Example
 
 The following could be used in a `.kitchen.yml` or in a `.kitchen.local.yml`
@@ -271,3 +277,4 @@ Apache 2.0 (see [LICENSE][license])
 [key_id_docs]:      http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/verifying-your-key-pair.html
 [region_docs]:      http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html
 [subnet_docs]:      http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html
+[iam_docs]:         http://docs.aws.amazon.com/IAM/latest/UserGuide/instance-profiles.html
